@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { QueryProvider } from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Crypto Dashboard",
-  description: "Interactive crypto dashboard with AI chatbot for real-time cryptocurrency data and insights",
+  description:
+    "Interactive crypto dashboard with AI chatbot for real-time cryptocurrency data and insights",
 };
 
 export default function RootLayout({
@@ -14,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
