@@ -1,7 +1,8 @@
 {
-  "name": "crypto-chat",
+  "name": "crypto-dashboard",
   "version": "0.1.0",
   "private": true,
+  "description": "Interactive crypto dashboard with AI chatbot for real-time cryptocurrency data and insights",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,19 +10,23 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.1",
+    "axios": "^1.12.2",
+    "lucide-react": "^0.544.0",
+    "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "recharts": "^3.2.1"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20.19.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
