@@ -1,21 +1,27 @@
-# Crypto Chat
+# Crypto Dashboard with AI Chatbot
 
-A modern, secure chat application built with Next.js, featuring end-to-end encryption for private messaging.
+An interactive cryptocurrency dashboard that provides real-time market data, detailed coin insights, and an AI-powered chatbot for crypto analysis and explanations.
 
 ## Features
 
-- 🔐 End-to-end encryption for secure messaging
-- 💬 Real-time chat functionality
-- 🎨 Modern, responsive UI built with Tailwind CSS
-- ⚡ Built on Next.js 15 with React 19
-- 🔒 Privacy-focused design
+- 📊 **Real-time Crypto Data**: Live prices, market caps, volume, and 24h changes for top cryptocurrencies
+- 🔍 **Search & Filter**: Find specific coins and sort by various metrics
+- 📈 **Interactive Charts**: Price history with 7-day sparklines and detailed coin charts
+- 🤖 **AI Chatbot**: Ask questions about cryptocurrencies and get intelligent insights
+- ⭐ **Favorites System**: Save and track your preferred coins (optional with Prisma)
+- 🎨 **Modern UI**: Responsive design built with Tailwind CSS
+- ⚡ **Fast Performance**: Built on Next.js 15 with React Query for optimal caching
 
 ## Tech Stack
 
-- **Framework**: Next.js 15
+- **Framework**: Next.js 15 (App Router)
 - **Frontend**: React 19, TypeScript
 - **Styling**: Tailwind CSS
-- **Linting**: ESLint
+- **Data Fetching**: TanStack Query (React Query)
+- **API**: CoinGecko (free tier)
+- **AI**: OpenAI API or similar
+- **Database**: Prisma (optional for favorites)
+- **Charts**: Recharts or Chart.js
 
 ## Getting Started
 
@@ -28,8 +34,8 @@ A modern, secure chat application built with Next.js, featuring end-to-end encry
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/crypto-chat.git
-cd crypto-chat
+git clone https://github.com/yourusername/crypto-dashboard.git
+cd crypto-dashboard
 ```
 
 2. Install dependencies:
@@ -54,11 +60,65 @@ pnpm dev
 bun dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Set up environment variables:
+```bash
+cp .env.example .env.local
+# Add your API keys:
+# OPENAI_API_KEY=your_openai_key_here
+# COINGECKO_API_KEY=your_coingecko_key_here (optional for higher rate limits)
+```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Project Structure
+
+Based on the PRD, the project follows this structure:
+
+```
+crypto-dashboard/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx              # Main dashboard
+│   │   ├── coin/[id]/page.tsx    # Coin detail pages
+│   │   └── api/
+│   │       ├── coins/route.ts    # Crypto API proxy
+│   │       └── chatbot/route.ts  # AI chatbot endpoint
+│   ├── components/
+│   │   ├── Navbar.tsx
+│   │   ├── CoinTable.tsx
+│   │   ├── CoinCard.tsx
+│   │   ├── Chatbot.tsx
+│   │   └── Chart.tsx
+│   ├── hooks/
+│   │   └── useCryptoQuery.ts     # React Query hooks
+│   └── lib/
+│       └── api.ts                # API helpers
+└── prisma/                       # Optional for favorites
+    └── schema.prisma
+```
+
+## Core Features
+
+### 🏠 Dashboard
+- Display top 50 cryptocurrencies with real-time data
+- Sort by price, market cap, volume, 24h change
+- Search functionality for specific coins
+- 7-day sparkline charts for quick trend visualization
+
+### 🔍 Coin Details
+- Detailed price history charts (24h, 7d, 30d views)
+- Market statistics (supply, volume, rank)
+- AI-powered insights and explanations
+
+### 🤖 AI Chatbot
+- Ask questions like "What is Ethereum?" or "Why is Bitcoin down today?"
+- Context-aware responses using live market data
+- Integrated chat interface within the dashboard
 
 ## Development
 
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the dashboard by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
