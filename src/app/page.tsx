@@ -1,45 +1,39 @@
 "use client";
 
 import { useMarketData } from "@/hooks/useCryptoQuery";
+import { CoinCard } from "@/components/CoinCard";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { Text } from "@/components/ui/Text";
 
 export default function Home() {
   const { data: coins, isLoading, error } = useMarketData(1, 10);
 
-  if (isLoading)
-    return (
-      <div className="min-h-screen bg-blue-500 flex items-center justify-center">
-        <h1 className="text-6xl font-bold text-white">LOADING...</h1>
-      </div>
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   if (error)
     return (
-      <div className="min-h-screen bg-red-500 flex items-center justify-center">
-        <h1 className="text-6xl font-bold text-white">ERROR!</h1>
+      <div className="min-h-screen flex items-center justify-center bg-red-50">
+        <Text size="2xl" weight="bold" color="danger">
+          Failed to load crypto data
+        </Text>
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-green-500 p-8">
-      <h1 className="text-6xl font-bold text-white mb-8">CRYPTO DATA WORKS!</h1>
-      <div className="grid gap-4">
-        {coins?.slice(0, 5).map((coin) => (
-          <div key={coin.id} className="bg-white p-4 rounded">
-            <h2 className="text-xl font-bold">
-              {coin.name} ({coin.symbol.toUpperCase()})
-            </h2>
-            <p className="text-lg">${coin.current_price.toLocaleString()}</p>
-            <p
-              className={
-                coin.price_change_percentage_24h > 0
-                  ? "text-green-600"
-                  : "text-red-600"
-              }
-            >
-              {coin.price_change_percentage_24h.toFixed(2)}%
-            </p>
-          </div>
-        ))}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-8">
+      <div className="max-w-6xl mx-auto">
+        <Text as="h1" size="4xl" weight="bold" className="mb-8 text-center">
+          Crypto Dashboard
+        </Text>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {coins?.map((coin) => (
+            <CoinCard
+              key={coin.id}
+              coin={coin}
+              onClick={() => console.log("Navigate to", coin.id)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
