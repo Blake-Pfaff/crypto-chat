@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useMarketData } from "@/hooks/useCryptoQuery";
 import { CoinCard } from "@/components/CoinCard";
@@ -21,17 +22,46 @@ const PER_PAGE_OPTIONS = [
 ];
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(25);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Initialize state from URL parameters
+  const [currentPage, setCurrentPage] = useState(() => {
+    const page = searchParams.get("page");
+    return page ? Math.max(1, parseInt(page)) : 1;
+  });
+
+  const [perPage, setPerPage] = useState(() => {
+    const per_page = searchParams.get("per_page");
+    const validPerPage = per_page ? parseInt(per_page) : 25;
+    // Ensure it's one of our valid options
+    return [10, 25, 50, 100].includes(validPerPage) ? validPerPage : 25;
+  });
+
   const [selectedCoin, setSelectedCoin] = useState<CoinMarketData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+
   const { data: coins, isLoading, error } = useMarketData(currentPage, perPage);
   const totalPages = Math.min(Math.ceil(13000 / perPage), 100);
 
+  // Update URL when page or perPage changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (currentPage > 1) params.set("page", currentPage.toString());
+    if (perPage !== 25) params.set("per_page", perPage.toString());
+
+    const newUrl = params.toString() ? `?${params.toString()}` : "/";
+    router.replace(newUrl, { scroll: false });
+  }, [currentPage, perPage, router]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const handlePerPageChange = (value: string | number) => {
     setPerPage(Number(value));
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page when changing per page
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -150,7 +180,7 @@ export default function Home() {
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={setCurrentPage}
+              onPageChange={handlePageChange}
             />
           </div>
         </div>
