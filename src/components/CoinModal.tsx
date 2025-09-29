@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, TrendingUp, TrendingDown } from "lucide-react";
 import { Text } from "./ui/Text";
 import { useCoinDetails } from "@/hooks/useCryptoQuery";
-import type { CoinModalProps } from "./ui/types";
+import type { CoinModalProps } from "./types";
 import { PriceChart } from "./PriceChart";
 
 export function CoinModal({ coin, isOpen, onClose }: CoinModalProps) {

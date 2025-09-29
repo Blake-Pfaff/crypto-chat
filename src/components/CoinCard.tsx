@@ -1,6 +1,6 @@
 import { CoinMarketData } from "@/types/crypto";
 import { Text } from "@/components/ui/Text";
-import { CoinCardProps } from "./ui/types";
+import { CoinCardProps } from "./types";
 
 export function CoinCard({ coin, onClick }: CoinCardProps) {
   const isPositive = (coin.price_change_percentage_24h ?? 0) > 0;

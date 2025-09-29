@@ -9,6 +9,8 @@ import { Dropdown } from "@/components/ui/Dropdown";
 import { Pagination } from "@/components/ui/Pagination";
 import type { CoinMarketData } from "@/types/crypto";
 import { CoinModal } from "@/components/CoinModal";
+import { ChatBox } from "@/components/Chatbot/ChatBox";
+import { MessageCircle } from "lucide-react";
 
 const PER_PAGE_OPTIONS = [
   { value: 10, label: "10 per page" },
@@ -22,6 +24,7 @@ export default function Home() {
   const [perPage, setPerPage] = useState(25);
   const [selectedCoin, setSelectedCoin] = useState<CoinMarketData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const { data: coins, isLoading, error } = useMarketData(currentPage, perPage);
   const totalPages = Math.min(Math.ceil(13000 / perPage), 100);
 
@@ -155,6 +158,13 @@ export default function Home() {
           onClose={() => setIsModalOpen(false)}
         />
       )}
+      <button
+        onClick={() => setIsChatOpen(true)}
+        className="fixed bottom-4 left-4 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-colors z-40"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </button>
+      <ChatBox isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   );
 }

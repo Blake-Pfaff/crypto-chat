@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { TextProps } from "./types";
+import { TextProps } from "../types";
 
 const sizeClasses = {
   xs: "text-xs",

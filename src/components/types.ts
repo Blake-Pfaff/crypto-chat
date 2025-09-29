@@ -71,6 +71,24 @@ export interface PriceChartProps {
   isPositive: boolean;
 }
 
+export interface ChatMessage {
+  id: string;
+  content: string;
+  role: "user" | "assistant";
+  timestamp: Date;
+  isLoading?: boolean;
+}
+
+export interface ChatInputProps {
+  onSendMessage: (message: string) => void;
+  isLoading: boolean;
+}
+
+export interface ChatBoxProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 export type ColorVariant =
   | "primary"
   | "secondary"

@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { Text } from "./ui/Text";
 import { Dropdown } from "./ui/Dropdown";
-import { PriceChartProps, PriceData } from "./ui/types";
+import { PriceChartProps, PriceData } from "./types";
 
 // Time period options for the dropdown
 const TIME_PERIOD_OPTIONS = [

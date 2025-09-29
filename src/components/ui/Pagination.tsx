@@ -2,7 +2,7 @@
 
 import { Text } from "./Text";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { PaginationProps } from "./types";
+import type { PaginationProps } from "../types";
 
 export function Pagination({
   currentPage,

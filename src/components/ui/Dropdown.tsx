@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Text } from "./Text";
 import { ChevronDown } from "lucide-react";
-import { DropdownProps } from "./types";
+import { DropdownProps } from "../types";
 
 export function Dropdown({
   options,
