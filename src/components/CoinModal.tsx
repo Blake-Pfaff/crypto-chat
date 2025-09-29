@@ -54,7 +54,7 @@ export function CoinModal({ coin, isOpen, onClose }: CoinModalProps) {
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors hover:cursor-pointer hover:text-white"
               >
                 <X className="w-6 h-6" />
               </button>
