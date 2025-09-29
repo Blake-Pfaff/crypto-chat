@@ -34,12 +34,12 @@ export default function Home() {
         <Text as="h1" size="4xl" weight="bold" className="mb-8 text-center">
           Crypto Dashboard
         </Text>
-        <div className="flex justify-end mb-8">
+        <div className="flex justify-end mb-8 ">
           <Dropdown
             options={PER_PAGE_OPTIONS}
             value={perPage}
             onChange={(value) => setPerPage(Number(value))}
-            className="w-48"
+            className="w-48 hover:cursor-pointer"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
