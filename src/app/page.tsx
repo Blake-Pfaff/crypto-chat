@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useMarketData } from "@/hooks/useCryptoQuery";
 import { CoinCard } from "@/components/CoinCard";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -113,15 +114,25 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
           {coins
             ?.filter((coin) => coin !== null)
-            .map((coin) => (
-              <CoinCard
+            .map((coin, index) => (
+              <motion.div
                 key={coin.id}
-                coin={coin}
-                onClick={() => {
-                  setSelectedCoin(coin);
-                  setIsModalOpen(true);
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.05, // Stagger effect
+                  ease: "easeOut",
                 }}
-              />
+              >
+                <CoinCard
+                  coin={coin}
+                  onClick={() => {
+                    setSelectedCoin(coin);
+                    setIsModalOpen(true);
+                  }}
+                />
+              </motion.div>
             ))}
         </div>
 
