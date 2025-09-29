@@ -7,7 +7,7 @@ interface CoinCardProps {
 }
 
 export function CoinCard({ coin, onClick }: CoinCardProps) {
-  const isPositive = coin.price_change_percentage_24h > 0;
+  const isPositive = (coin.price_change_percentage_24h ?? 0) > 0;
 
   return (
     <div
@@ -15,36 +15,38 @@ export function CoinCard({ coin, onClick }: CoinCardProps) {
       onClick={onClick}
     >
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 min-w-0 flex-1 mr-4">
           <img
             src={coin.image}
             alt={coin.name}
-            className="w-8 h-8 rounded-full"
+            className="w-8 h-8 rounded-full flex-shrink-0"
           />
-          <div>
-            <Text as="h3" size="lg" weight="semibold">
+          <div className="min-w-0 flex-1">
+            <Text as="h3" size="lg" weight="semibold" className="truncate">
               {coin.name}
             </Text>
-            <Text size="sm" color="secondary">
+            <Text size="sm" color="secondary" className="truncate">
               {coin.symbol.toUpperCase()}
             </Text>
           </div>
         </div>
-        <Text size="lg" weight="bold">
-          ${coin.current_price.toLocaleString()}
-        </Text>
+        <div className="flex-shrink-0">
+          <Text size="lg" weight="bold">
+            ${coin.current_price?.toLocaleString() ?? "N/A"}
+          </Text>
+        </div>
       </div>
 
       <div className="flex justify-between items-center">
-        <div>
+        <div className="min-w-0 flex-1 mr-4">
           <Text size="sm" color="secondary">
             Market Cap
           </Text>
-          <Text size="sm" weight="medium">
-            ${coin.market_cap.toLocaleString()}
+          <Text size="sm" weight="medium" className="truncate">
+            ${coin.market_cap?.toLocaleString() ?? "N/A"}
           </Text>
         </div>
-        <div className="text-right">
+        <div className="text-right flex-shrink-0">
           <Text size="sm" color="secondary">
             24h Change
           </Text>
@@ -54,7 +56,7 @@ export function CoinCard({ coin, onClick }: CoinCardProps) {
             color={isPositive ? "success" : "danger"}
           >
             {isPositive ? "+" : ""}
-            {coin.price_change_percentage_24h?.toFixed(2)}%
+            {coin.price_change_percentage_24h?.toFixed(2) ?? "N/A"}%
           </Text>
         </div>
       </div>
