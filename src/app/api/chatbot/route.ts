@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Type for CoinGecko API responses
+type CoinGeckoMarketData = {
+  name: string;
+  symbol: string;
+  id: string;
+  current_price: number;
+  market_cap?: number;
+  price_change_percentage_24h?: number;
+};
+
 export async function POST(request: NextRequest) {
   try {
     const { message } = await request.json();
@@ -294,7 +304,7 @@ async function findPotentialCoins(message: string): Promise<string[]> {
           // Check if we found exact matches in coins
           if (searchData.coins && searchData.coins.length > 0) {
             const exactMatch = searchData.coins.find(
-              (coin: any) =>
+              (coin: { name: string; symbol: string; id: string }) =>
                 coin.name.toLowerCase() === word ||
                 coin.symbol.toLowerCase() === word ||
                 coin.id.toLowerCase() === word
@@ -387,7 +397,7 @@ async function getCheapestCoins(): Promise<string> {
     let response_text =
       "Here are the 5 cheapest cryptocurrencies by price:\n\n";
 
-    cheapest.forEach((coin: any, index: number) => {
+    cheapest.forEach((coin: CoinGeckoMarketData, index: number) => {
       const price =
         coin.current_price < 0.01
           ? coin.current_price.toFixed(6)
@@ -423,7 +433,7 @@ async function getMostExpensiveCoins(): Promise<string> {
     let response_text =
       "Here are the 5 most expensive cryptocurrencies by price:\n\n";
 
-    expensive.forEach((coin: any, index: number) => {
+    expensive.forEach((coin: CoinGeckoMarketData, index: number) => {
       const price = coin.current_price.toLocaleString();
       const change = coin.price_change_percentage_24h?.toFixed(2) || "N/A";
       response_text += `${index + 1}. ${
@@ -454,23 +464,25 @@ async function getTopPerformers(type: "gainers" | "losers"): Promise<string> {
 
     // Sort by 24h change
     const sorted = data
-      .filter((coin: any) => coin.price_change_percentage_24h !== null)
-      .sort((a: any, b: any) => {
-        return type === "gainers"
-          ? b.price_change_percentage_24h - a.price_change_percentage_24h
-          : a.price_change_percentage_24h - b.price_change_percentage_24h;
+      .filter(
+        (coin: CoinGeckoMarketData) => coin.price_change_percentage_24h !== null
+      )
+      .sort((a: CoinGeckoMarketData, b: CoinGeckoMarketData) => {
+        const aChange = a.price_change_percentage_24h || 0;
+        const bChange = b.price_change_percentage_24h || 0;
+        return type === "gainers" ? bChange - aChange : aChange - bChange;
       })
       .slice(0, 5);
 
     const title = type === "gainers" ? "biggest gainers" : "biggest losers";
     let response_text = `Here are today's top 5 ${title} (24h):\n\n`;
 
-    sorted.forEach((coin: any, index: number) => {
+    sorted.forEach((coin: CoinGeckoMarketData, index: number) => {
       const price =
         coin.current_price < 1
           ? coin.current_price.toFixed(4)
           : coin.current_price.toFixed(2);
-      const change = coin.price_change_percentage_24h.toFixed(2);
+      const change = (coin.price_change_percentage_24h || 0).toFixed(2);
       const emoji = type === "gainers" ? "📈" : "📉";
       response_text += `${index + 1}. ${
         coin.name
@@ -501,12 +513,12 @@ async function getTopMarketCap(): Promise<string> {
     let response_text =
       "Here are the top 5 cryptocurrencies by market cap:\n\n";
 
-    top.forEach((coin: any, index: number) => {
+    top.forEach((coin: CoinGeckoMarketData, index: number) => {
       const price =
         coin.current_price < 1
           ? coin.current_price.toFixed(4)
           : coin.current_price.toFixed(2);
-      const marketCap = (coin.market_cap / 1000000000).toFixed(1); // Convert to billions
+      const marketCap = ((coin.market_cap || 0) / 1000000000).toFixed(1); // Convert to billions
       const change = coin.price_change_percentage_24h?.toFixed(2) || "N/A";
       response_text += `${index + 1}. ${
         coin.name

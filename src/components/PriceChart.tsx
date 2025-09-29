@@ -120,7 +120,14 @@ export function PriceChart({ data, isPositive, coinName }: PriceChartProps) {
   const chartData = getChartData();
 
   // Enhanced Custom Tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{ value: number; payload: any }>;
+    label?: string;
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       const price = payload[0].value;
