@@ -1,12 +1,21 @@
 "use client";
-
+import { useState } from "react";
 import { useMarketData } from "@/hooks/useCryptoQuery";
 import { CoinCard } from "@/components/CoinCard";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Text } from "@/components/ui/Text";
+import { Dropdown } from "@/components/ui/Dropdown";
+
+const PER_PAGE_OPTIONS = [
+  { value: 10, label: "10 per page" },
+  { value: 25, label: "25 per page" },
+  { value: 50, label: "50 per page" },
+  { value: 100, label: "100 per page" },
+];
 
 export default function Home() {
-  const { data: coins, isLoading, error } = useMarketData(1, 10);
+  const [perPage, setPerPage] = useState(25);
+  const { data: coins, isLoading, error } = useMarketData(1, perPage);
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -25,6 +34,14 @@ export default function Home() {
         <Text as="h1" size="4xl" weight="bold" className="mb-8 text-center">
           Crypto Dashboard
         </Text>
+        <div className="flex justify-end mb-8">
+          <Dropdown
+            options={PER_PAGE_OPTIONS}
+            value={perPage}
+            onChange={(value) => setPerPage(Number(value))}
+            className="w-48"
+          />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {coins?.map((coin) => (
             <CoinCard
