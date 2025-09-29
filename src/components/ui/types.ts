@@ -1,3 +1,5 @@
+import { CoinMarketData } from "@/types/crypto";
+
 export interface DropdownOption {
   value: string | number;
   label: string;
@@ -43,6 +45,17 @@ export interface PaginationProps {
 export interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg";
   className?: string;
+}
+
+export interface CoinModalProps {
+  coin: import("@/types/crypto").CoinMarketData | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export interface CoinCardProps {
+  coin: CoinMarketData;
+  onClick?: () => void;
 }
 
 // Common UI Types

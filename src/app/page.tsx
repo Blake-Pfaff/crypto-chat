@@ -7,6 +7,8 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Text } from "@/components/ui/Text";
 import { Dropdown } from "@/components/ui/Dropdown";
 import { Pagination } from "@/components/ui/Pagination";
+import type { CoinMarketData } from "@/types/crypto";
+import { CoinModal } from "@/components/CoinModal";
 
 const PER_PAGE_OPTIONS = [
   { value: 10, label: "10 per page" },
@@ -18,6 +20,8 @@ const PER_PAGE_OPTIONS = [
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(25);
+  const [selectedCoin, setSelectedCoin] = useState<CoinMarketData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: coins, isLoading, error } = useMarketData(currentPage, perPage);
   const totalPages = Math.min(Math.ceil(13000 / perPage), 100);
 
@@ -104,13 +108,18 @@ export default function Home() {
 
         {/* Coin Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-          {coins?.map((coin) => (
-            <CoinCard
-              key={coin.id}
-              coin={coin}
-              onClick={() => console.log("Navigate to", coin.id)}
-            />
-          ))}
+          {coins
+            ?.filter((coin) => coin !== null)
+            .map((coin) => (
+              <CoinCard
+                key={coin.id}
+                coin={coin}
+                onClick={() => {
+                  setSelectedCoin(coin);
+                  setIsModalOpen(true);
+                }}
+              />
+            ))}
         </div>
 
         {/* Pagination Section */}
@@ -139,6 +148,13 @@ export default function Home() {
           </Text>
         </div>
       </div>
+      {CoinModal && (
+        <CoinModal
+          coin={selectedCoin}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
