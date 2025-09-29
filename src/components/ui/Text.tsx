@@ -1,24 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-
-interface TextProps {
-  children: ReactNode;
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
-  size?:
-    | "xs"
-    | "sm"
-    | "base"
-    | "lg"
-    | "xl"
-    | "2xl"
-    | "3xl"
-    | "4xl"
-    | "5xl"
-    | "6xl";
-  weight?: "light" | "normal" | "medium" | "semibold" | "bold" | "extrabold";
-  color?: "primary" | "secondary" | "success" | "danger" | "warning" | "muted";
-  className?: string;
-}
+import { TextProps } from "./types";
 
 const sizeClasses = {
   xs: "text-xs",
