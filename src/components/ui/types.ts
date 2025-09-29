@@ -58,7 +58,19 @@ export interface CoinCardProps {
   onClick?: () => void;
 }
 
-// Common UI Types
+export interface PriceData {
+  time: string;
+  price: number;
+  timestamp: number;
+}
+
+export interface PriceChartProps {
+  data: number[];
+  coinName: string;
+  currentPrice: number;
+  isPositive: boolean;
+}
+
 export type ColorVariant =
   | "primary"
   | "secondary"
