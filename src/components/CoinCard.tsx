@@ -1,4 +1,4 @@
-import { CoinMarketData } from "@/types/crypto";
+import Image from "next/image";
 import { Text } from "@/components/ui/Text";
 import { CoinCardProps } from "./types";
 
@@ -12,9 +12,11 @@ export function CoinCard({ coin, onClick }: CoinCardProps) {
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3 min-w-0 flex-1 mr-4">
-          <img
+          <Image
             src={coin.image}
             alt={coin.name}
+            width={32}
+            height={32}
             className="w-8 h-8 rounded-full flex-shrink-0"
           />
           <div className="min-w-0 flex-1">

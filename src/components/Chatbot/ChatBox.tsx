@@ -68,7 +68,7 @@ export function ChatBox({ isOpen, onClose }: ChatBoxProps) {
             : msg
         )
       );
-    } catch (error) {
+    } catch {
       // Handle error
       setMessages((prev) =>
         prev.map((msg) =>
