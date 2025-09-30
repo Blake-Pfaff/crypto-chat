@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, TrendingUp, TrendingDown } from "lucide-react";
+import { X, TrendingUp, TrendingDown } from "lucide-react";
 import { Text } from "./ui/Text";
 import { useCoinDetails } from "@/hooks/useCryptoQuery";
 import type { CoinModalProps } from "./types";
@@ -38,9 +39,11 @@ export function CoinModal({ coin, isOpen, onClose }: CoinModalProps) {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-4">
-                <img
+                <Image
                   src={coin.image}
                   alt={coin.name}
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full"
                 />
                 <div>

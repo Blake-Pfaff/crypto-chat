@@ -55,7 +55,7 @@ export function PriceChart({ data, isPositive, coinName }: PriceChartProps) {
     }
 
     return processedData.map((price, index) => {
-      const timeAgo = getTimeAgo(index, processedData.length, selectedPeriod);
+      const timeAgo = getTimeAgo(index, processedData.length);
       return {
         time: formatTimeLabel(timeAgo, selectedPeriod),
         price: price,
@@ -66,11 +66,7 @@ export function PriceChart({ data, isPositive, coinName }: PriceChartProps) {
   };
 
   // Calculate time ago in milliseconds
-  const getTimeAgo = (
-    index: number,
-    totalPoints: number,
-    period: string
-  ): number => {
+  const getTimeAgo = (index: number, totalPoints: number): number => {
     const periodHours = {
       "1": 24, // 24 hours
       "7": 168, // 7 days = 168 hours

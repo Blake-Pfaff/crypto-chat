@@ -34,8 +34,7 @@ export async function POST(request: NextRequest) {
     const response = await generateFreeAIResponse(message, cryptoContext);
 
     return NextResponse.json({ response });
-  } catch (error) {
-    console.error("Chatbot error:", error);
+  } catch {
     return NextResponse.json(
       { error: "Failed to get response" },
       { status: 500 }
@@ -95,8 +94,7 @@ async function generateFreeAIResponse(
     } else {
       return getSmartRuleBasedResponse(message, cryptoContext);
     }
-  } catch (error) {
-    console.error("Hugging Face API error:", error);
+  } catch {
     return getSmartRuleBasedResponse(message, cryptoContext);
   }
 }
@@ -167,7 +165,7 @@ async function getCryptoContext(message: string): Promise<string> {
     });
 
     return context || "Unable to fetch current crypto data.";
-  } catch (error) {
+  } catch {
     return "Unable to fetch current crypto data.";
   }
 }
@@ -315,15 +313,14 @@ async function findPotentialCoins(message: string): Promise<string[]> {
             }
           }
         }
-      } catch (error) {
+      } catch {
         // Skip this word if search fails
         continue;
       }
     }
 
     return coinIds;
-  } catch (error) {
-    console.error("Smart coin detection error:", error);
+  } catch {
     return [];
   }
 }
@@ -412,7 +409,7 @@ async function getCheapestCoins(): Promise<string> {
       "\n💡 Remember: Low price doesn't mean good investment! Always research market cap, use case, and project fundamentals.";
 
     return response_text;
-  } catch (error) {
+  } catch {
     return "Sorry, I couldn't fetch the current market data. Please try again later.";
   }
 }
@@ -445,7 +442,7 @@ async function getMostExpensiveCoins(): Promise<string> {
       "\n💡 High price per coin doesn't always mean better investment! Market cap is more important than individual coin price.";
 
     return response_text;
-  } catch (error) {
+  } catch {
     return "Sorry, I couldn't fetch the current market data. Please try again later.";
   }
 }
@@ -492,7 +489,7 @@ async function getTopPerformers(type: "gainers" | "losers"): Promise<string> {
     response_text += `\n💡 High volatility can mean high risk! Always research before investing.`;
 
     return response_text;
-  } catch (error) {
+  } catch {
     return "Sorry, I couldn't fetch the current market data. Please try again later.";
   }
 }
@@ -529,7 +526,7 @@ async function getTopMarketCap(): Promise<string> {
       "💡 Market cap = Price × Circulating Supply. It's a better measure of a crypto's total value than just price per coin.";
 
     return response_text;
-  } catch (error) {
+  } catch {
     return "Sorry, I couldn't fetch the current market data. Please try again later.";
   }
 }
