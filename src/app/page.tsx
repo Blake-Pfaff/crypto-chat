@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useMarketData } from "@/hooks/useCryptoQuery";
@@ -21,7 +21,7 @@ const PER_PAGE_OPTIONS = [
   { value: 100, label: "100 per page" },
 ];
 
-export default function Home() {
+function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -207,5 +207,13 @@ export default function Home() {
       </button>
       <ChatBox isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <HomeContent />
+    </Suspense>
   );
 }

@@ -121,7 +121,10 @@ export function PriceChart({ data, isPositive, coinName }: PriceChartProps) {
     payload,
   }: {
     active?: boolean;
-    payload?: Array<{ value: number; payload: any }>;
+    payload?: Array<{
+      value: number;
+      payload: { time: string; price: number; timeAgo: number };
+    }>;
     label?: string;
   }) => {
     if (active && payload && payload.length) {
